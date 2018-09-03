@@ -27,7 +27,7 @@ stages{
             parallel{
                 stage ('Deploy to Staging'){
                     steps {
-                        cp "${params.tomcat_dev}" 
+                        sh "cp ${params.tomcat_dev}" 
                     }
                 }
             }
