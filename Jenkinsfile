@@ -1,10 +1,10 @@
 pipeline {
     agent any
     
-    // parameters { 
-    //      string(name: 'tomcat_dev', defaultValue: '35.166.210.154', description: 'Staging Server')
-    //      string(name: 'tomcat_prod', defaultValue: '34.209.233.6', description: 'Production Server')
-    // } 
+    parameters { 
+         string(name: 'tomcat_dev', defaultValue: 'localhost:8081', description: 'Staging Server')
+         string(name: 'tomcat_prod', defaultValue: 'localhost:8090', description: 'Production Server')
+    } 
 
     triggers {
          pollSCM('* * * * *') // Polling Source Control
@@ -23,29 +23,20 @@ stages{
             }
         }
 
-        // stage ('Deploy to Staging'){
-        //     steps{
-        //         build job: 'Deploy-to-staging'
-        //     }
-        // }
+        stage ('Deployments'){
+            parallel{
+                stage ('Deploy to Staging'){
+                    steps {
+                        cp ${params.tomcat_dev} 
+                    }
+                }
 
-        // stage ('Deploy to Production'){
-        //     steps{
-        //         timeout(time:5, unit:'DAYS'){
-        //             input message:'Approved PRODUCTION Deployment?'
-        //         }
-
-        //         build job: 'Deploy-to-Prod'
-        //     }
-        //     post{
-        //         success {
-        //             echo 'Code deployed to Production.'
-        //         }
-                
-        //         failure {
-        //             echo ' Deployment Failed.'
-        //         }
-        //     }
-        // }
+                stage ("Deploy to Production"){
+                    steps {
+                        cp ${params.tomcat_prod}
+                    }
+                }
+            }
+        }
     }
 }
