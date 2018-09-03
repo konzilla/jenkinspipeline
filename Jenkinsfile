@@ -6,9 +6,9 @@ pipeline {
     //      string(name: 'tomcat_prod', defaultValue: '34.209.233.6', description: 'Production Server')
     // } 
 
-    // triggers {
-    //      pollSCM('* * * * *') // Polling Source Control
-    //  }
+    triggers {
+         pollSCM('* * * * *') // Polling Source Control
+     }
 
 stages{
         stage('Build'){
