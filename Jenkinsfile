@@ -27,16 +27,18 @@ stages{
             parallel{
                 stage ('Deploy to Staging'){
                     steps {
-                        cp ${params.tomcat_dev} 
-                    }
-                }
-
-                stage ("Deploy to Production"){
-                    steps {
-                        cp ${params.tomcat_prod}
+                        cp "${params.tomcat_dev}" 
                     }
                 }
             }
         }
+                stage ("Deploy to Production"){
+                    steps {
+                        cp "${params.tomcat_prod}"
+                    }
+                }
+            
+        }
+
     }
 }
